@@ -14,3 +14,18 @@ export const fetchData = async ()=>{
         console.log(err)
     }
 }
+
+export const fetchDailyData = async()=>{
+    try{
+        const {data} = await axios.get(`${apiUrl}/daily`);
+
+        const modifiedData = data.map((dailyData)=> ({
+            confirmed:dailyData.confirmed.total,
+            deaths:dailyData.deaths.total,
+            date:dailyData.reportDate
+        }))//el return luego del => esta dentro de un ({}) para que devuelva automaticamente un objeto
+        return modifiedData
+    }catch(err){
+        console.log(err)
+    }
+}
