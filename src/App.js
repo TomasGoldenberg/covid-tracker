@@ -6,7 +6,8 @@ import styles from "./App.module.css";
 
 class App extends React.Component{
     state = {
-        data:{}
+        data:{},
+        country:""
     }
 
     async componentDidMount(){
@@ -14,14 +15,25 @@ class App extends React.Component{
        
         this.setState({data:fetchedData})
     }
+
+    handleCountryChange= async(country)=>{
+
+        const fetchedData = await fetchData(country)
+        this.setState({data:fetchedData ,country: country})
+        
+    }
+
     render(){
-        const {data} =this.state
+        const {data, country} =this.state
         return(
+            <>
+            
             <div className={styles.container}>
             <Cards data={data}/>
-            <CountryPicker />
-            <Chart />
+            <CountryPicker handleCountryChange={this.handleCountryChange}/>
+            <Chart data={data} country={country}/>
             </div>
+            </>
         )
     }
 }
